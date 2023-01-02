@@ -24,10 +24,7 @@ const Chat = () => {
 
   useEffect(() => {
     socket = socketIo(ENDPOINT, {
-      transports: ["websocket", "polling"],
-      path: "/socket.io",
-      upgrade: true,
-      withCredentials: false,
+      transports: ["websocket"],
     });
     console.log(socket);
     socket.on("connect", () => {
