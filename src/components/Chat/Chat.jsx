@@ -9,12 +9,13 @@ import { useState } from "react";
 import Message from "../Message/Message";
 import ReactScrollToBottom from "react-scroll-to-bottom";
 
-const ENDPOINT = "http://localhost:5000/";
-
 let socket;
+const ENDPOINT = "https://chat-server-abid.vercel.app/";
+
 const Chat = () => {
   const [id, setId] = useState("");
   const [messages, setMessages] = useState([]);
+
   const sendFn = () => {
     const message = document.getElementById("chatIn").value;
     socket.emit("message", { id, message });
@@ -22,13 +23,17 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    socket = socketIo(ENDPOINT, { transports: ["websocket"] });
+    socket = socketIo(ENDPOINT, {
+      transports: ["websocket", "polling"],
+      path: "/socket.io",
+      upgrade: true,
+      withCredentials: false,
+    });
+    console.log(socket);
     socket.on("connect", () => {
       console.log("Connected");
       setId(socket.id);
     });
-
-    console.log(socket);
 
     socket.emit("joined", { user });
 
