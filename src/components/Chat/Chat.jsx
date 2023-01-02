@@ -50,7 +50,7 @@ const Chat = () => {
       socket.emit("disconnect");
       socket.off();
     };
-  }, []);
+  }, [messages]);
 
   useEffect(() => {
     socket.on("sendMessage", (data) => {
